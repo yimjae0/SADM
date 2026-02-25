@@ -46,11 +46,10 @@ CUDA_VISIBLE_DEVICES=0 python main.py --ppc 1  --dataset MODELNET40
 If you find our work useful, please cite:  
 
 ```bibtex
-@article{yim2025dataset,
-    title={Dataset Distillation of 3D Point Clouds via Distribution Matching},
-    author={Yim, Jae-Young and Kim, Dongwook and Sim, Jae-Young},
-    journal={arXiv preprint arXiv:2503.22154},
-    year={2025},
-    url={https://arxiv.org/abs/2503.22154}
+@inproceedings{SADM,
+  title={Dataset Distillation of 3D Point Clouds via Distribution Matching},
+  author={Yim, Jae-Young and Kim, Dongwook and Sim, Jae-Young},
+  booktitle={Proceedings of the Advances in Neural Information Processing Systems},
+  year={2025}
 }
 ```
