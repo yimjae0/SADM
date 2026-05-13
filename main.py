@@ -33,6 +33,7 @@ def main():
     parser.add_argument('--mode', type=str, default='result', help='V1/V2')
     parser.add_argument('--feature_transform', type=int, default=0, help='feature transform')
     parser.add_argument('--mmdkernel', type=str, default="gaussian", help='kernel')
+    parser.add_argument('--topk', type=int, default=1, help='the number of topk')
 
 
     args = parser.parse_args()
@@ -297,10 +298,11 @@ def main():
                 sorted_real = torch.sort(layers_real["x_m"], dim=2, descending=True)[0].detach()
                 sorted_syn = torch.sort(layers_syn["x_m"], dim=2, descending=True)[0]
 
-                real = sorted_real.mean(dim=0)
-                syn = sorted_syn.mean(dim=0)
+                real_fr = sorted_real.permute(0,2,1).reshape(sorted_real.shape[0], -1)
+                syn_fr = sorted_syn.permute(0,2,1).reshape(sorted_syn.shape[0], -1)
+                channel = sorted_real.shape[1]
 
-                loss1 = (((real - syn)**2).sum(dim=0)).mean() * 0.2 + m3d_criterion(layers_real['x_gf'], layers_syn['x_gf']) * 0.001
+                loss1 = m3d_criterion(real_fr, syn_fr) * 0.002 + m3d_criterion(real_fr[:,:channel*args.topk], syn_fr[:,:channel*args.topk]) * 0.001
                 loss += loss1 * args.ppc
 
 
