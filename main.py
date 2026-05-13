@@ -119,7 +119,8 @@ def main():
             {'params': theta_y, 'lr': args.lr_rot},
             {'params': theta_z, 'lr': args.lr_rot / 10}
         ], momentum=0.5)
-        
+        scheduler_theta = torch.optim.lr_scheduler.StepLR(optimizer_theta, step_size=100, gamma=0.5)
+
         optimizer_theta.zero_grad()
         
         # Inside training loop
@@ -312,6 +313,7 @@ def main():
             loss.backward()
             optimizer_img.step()
             optimizer_theta.step()
+            scheduler_theta.step()
 
             loss_avg += loss.item()
 
